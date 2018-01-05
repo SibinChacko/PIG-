@@ -7,5 +7,4 @@ grouptxn = group txn by (cat,prod);
 --dump grouptxn;
  
 GroupCount = foreach grouptxn generate group, COUNT(txn);
-
 dump GroupCount;
