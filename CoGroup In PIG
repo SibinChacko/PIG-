@@ -1,0 +1,13 @@
+txn = Load 'txns1.txt' using PigStorage(',') as (txnid, txndate, custno:chararray, amount:double, cat, prod, city, state, type);
+cust = Load '/home/hduser/custs' using PigStorage(',') as (custno:chararray, firstname:chararray, lastname, age:int, profession:chararray);
+
+txn = foreach txn generate custno, amount;
+cust = foreach cust generate custno, firstname;
+
+joined = cogroup cust by $0, txn by $0;
+
+final = foreach joined generate FLATTEN(cust.firstname), COUNT(txn), ROUND_TO(SUM(txn.amount),2);
+
+dump final;
+
+store final into '/home/hduser/Documents/PIG/PigOutputs/CoGroupOp' using PigStorage(',');
