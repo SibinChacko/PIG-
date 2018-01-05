@@ -1,0 +1,11 @@
+txn = Load 'txns1.txt' using PigStorage(',') as (txnid, txndate, custno:chararray, amount:double, cat, prod, city, state, type);
+
+grouptxn = group txn by (cat,prod);
+
+--describe grouptxn;
+
+--dump grouptxn;
+ 
+GroupCount = foreach grouptxn generate group, COUNT(txn);
+
+dump GroupCount;
