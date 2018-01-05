@@ -22,5 +22,4 @@ totalsales = foreach totalgroup generate ROUND_TO(SUM(totalspend.$1),2);
 --dump totalsales;
 
 final = foreach totalspend generate $0, $1, ROUND_TO(($1/totalsales.$0)*100,2);
-
 dump final;
