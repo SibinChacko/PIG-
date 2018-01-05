@@ -1,0 +1,21 @@
+book_info = Load 'book-data' using PigStorage(',') as (book_id:int, price:int, author_id:int);
+
+--describe book_info;
+
+--dump book_info;
+
+book_info_filtered = FILTER book_info by price >= 200;
+
+--dump book_info_filtered;
+
+author_info = Load 'author-data' using PigStorage(',') as (author_id:int, author_name:chararray);
+
+--describe author_info;
+
+author_info_filtered = FILTER author_info by INDEXOF(author_name,'J',0) == 0;
+
+--dump author_info_filtered;
+
+book_author_info = JOIN book_info_filtered by author_id, author_info_filtered by author_id;
+
+STORE book_author_info INTO '/home/hduser/Documents/PigOutputs/book-author-Op' using PigStorage(',');
