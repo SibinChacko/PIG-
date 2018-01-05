@@ -1,0 +1,13 @@
+cust = Load '/home/hduser/custs' using PigStorage(',') as (custno:chararray, firstname, lastname, age:int, profession:chararray);
+
+--dump cust;
+
+groupbyprofession = group cust by profession;
+
+countbyprofession = foreach groupbyprofession generate group as profession, COUNT(cust) as headcount  ;
+
+--dump countbyprofession;
+
+orderbycount = order countbyprofession by headcount desc;
+
+store orderbycount into '/home/hduser/Documents/PIG/PigOutputs/custsOp' using PigStorage(',');
