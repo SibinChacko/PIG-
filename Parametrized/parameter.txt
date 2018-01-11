@@ -1,0 +1,3 @@
+input1=/home/hduser/txns1.txt
+input2=/home/hduser/custs
+output=/home/hduser/Documents/PIG/PigOutputs/top10
