@@ -1,0 +1,26 @@
+UDAF in PIG
+------------
+
+We are computing statistical operations -mean,median,mode
+Performing Median:
+------------------
+Median is an aggregate function.
+We are downloading a jar file(datafu-pig-incubating-1.3.1.jar)from the apache site.
+Their are jar files available on net for different Aggregate operations.So we need not necessarily perform the java code for that operations but can directly download the jar file(here:datafu-pig-incubating-1.3.1.jar) for that from net and define a user defined function(here:Median) to access it.
+
+Make a file(here :medianData) in lfs with some integer values in it in a single column without using any delimiter
+Then on pig(lfs):-
+
+grunt> Register datafu-pig-incubating-1.3.1.jar;
+
+grunt> DEFINE Median datafu.pig.stats.StreamingMedian(); //we are using this StreamingMedian so that the data in the 'medianData' dataset is sorted and arranged.Otherwise we need to first sort and arrange the data in order, then only the Median(center element) can be found.
+
+grunt> data = Load 'medianData' using PigStorage() as (val:int);
+
+grunt> dump data;
+
+grunt> data = FOREACH (GROUP data ALL) GENERATE Median(data.val);
+
+grunt> dump data;
+
+The final op will be the center element of the 'medianData' dataset. 
