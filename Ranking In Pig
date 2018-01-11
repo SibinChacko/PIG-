@@ -1,0 +1,12 @@
+SKIP FIRST LINE
+----------------
+
+bag1 = load '/home/hduser/pigfile1.txt' using PigStorage(',') as (id:int, name:chararray);
+--dump bag1;
+ranked_bag = rank bag1;
+--dump ranked_bag;
+describe ranked_bag;
+skip_first = filter ranked_bag by rank_bag1>1;
+final = foreach skip_first generate id, name;
+dump final;
+
