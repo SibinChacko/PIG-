@@ -1,0 +1,16 @@
+A = Load 'Myfile1' using TextLoader() as (line:chararray);
+--dump A;
+--describe A;
+
+B = foreach A generate FLATTEN(TOKENIZE(line)) as word;
+--describe B;
+--dump B;
+
+C = group B by word;
+--describe C;
+--dump C;
+
+D = foreach C generate group, COUNT(B);
+--dump D;
+
+illustrate D;
